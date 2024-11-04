@@ -17,7 +17,14 @@ class _HomePageState extends State<HomePage> {
       case 0:
         return const HomeContent(); // Halaman Home
       case 1:
-        return const AkunPage(); // Halaman Akun
+        // Navigasi ke AkunPage tanpa membawa AppBar dari HomePage
+        return Navigator(
+          onGenerateRoute: (RouteSettings settings) {
+            return MaterialPageRoute(
+              builder: (_) => const AkunPage(),
+            );
+          },
+        );
       case 2:
         return const LogoutContent(); // Halaman Logout
       default:
@@ -37,36 +44,40 @@ class _HomePageState extends State<HomePage> {
     final itemWidth = screenWidth / 3;
 
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: const Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.account_circle, color: Colors.black, size: 30),
-            Text(
-              "Guest",
-              style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications_none),
-            onPressed: () {
-              // Notification button action
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () {
-              // Settings button action
-            },
-          ),
-        ],
-      ),
-      
+      appBar: _selectedIndex == 0 // Only show AppBar on the Home tab
+          ? AppBar(
+              automaticallyImplyLeading: false,
+              backgroundColor: Colors.white,
+              elevation: 0,
+              title: const Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.account_circle, color: Colors.black, size: 30),
+                  Text(
+                    "Guest",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.notifications_none),
+                  onPressed: () {
+                    // Notification button action
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(Icons.settings),
+                  onPressed: () {
+                    // Settings button action
+                  },
+                ),
+              ],
+            )
+          : null, // No AppBar on other tabs
       body: _getSelectedPage(), // Menampilkan halaman yang sesuai dengan indeks yang dipilih
 
       bottomNavigationBar: Stack(
@@ -84,11 +95,11 @@ class _HomePageState extends State<HomePage> {
                 label: "Home",
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.account_circle),
+                icon: Icon(Icons.stars),
                 label: "Akun",
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.logout),
+                icon: Icon(Icons.stars),
                 label: "Logout",
               ),
             ],

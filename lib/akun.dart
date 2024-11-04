@@ -13,7 +13,6 @@ class _AkunPageState extends State<AkunPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    
       backgroundColor: Colors.white,
       body: isEditing ? _buildEditAkunView() : _buildAkunView(),
     );
